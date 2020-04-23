@@ -5,11 +5,11 @@ date: 2020-04-23
 ---
 # 1-1. Spring Boot 로컬 개발 환경 세팅
 
-###### 로컬 개발 환경 세팅
-###### spring boot project
-###### web/mustache/dev-tools
-###### "Hello World" welcome 페이지
-###### live reload chrome extension 
+##### 로컬 개발 환경 세팅
+##### spring boot project
+##### web/mustache/dev-tools
+##### "Hello World" welcome 페이지
+##### live reload chrome extension 
 
 
 Spring Boot DevTools ?
