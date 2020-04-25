@@ -32,3 +32,4 @@ tar.gz이면 -xvfz    tar.bz2이면 -xvf
 
 **wget과 yum의 차이는?**
 
+**ubuntu ln 명령어**
