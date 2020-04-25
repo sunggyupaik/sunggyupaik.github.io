@@ -33,3 +33,7 @@ tar.gz이면 -xvfz    tar.bz2이면 -xvf
 **wget과 yum와 apt-get 차이는?**
 
 **ubuntu ln 명령어**
+
+./mvnw clean package = 미리 만들었던 package가 build 된다.
+
+**Linux에서 JDK 설치하고 환경변수 지정하기**
