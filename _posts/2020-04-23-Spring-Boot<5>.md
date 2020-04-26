@@ -48,4 +48,6 @@ ufw allow 8080/tcp : 허용하기
 ufw deny 8080/tcp : 거부하기
 
 
-ufw delete deny 8080/tcp : 룰 삭제
+ufw delete deny 8080/tcp : deny 룰 삭제
+ufw delte allow 8080/tcp : allow 룰 삭제
+
