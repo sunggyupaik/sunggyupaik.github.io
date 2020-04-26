@@ -78,4 +78,8 @@ mustache를 이용하고 싶으면 무조건 Controller가 선행!
 
 Controller에서 return에 해당하는 단어가 자동으로 .html을 붙여서 templates에서 찾는다.
 
-html을 입력하지 않아도 앞에 제목만 입력하면 mustache는 기본적으로 html파일로 만든다. 
+html을 입력하지 않아도 앞에 제목만 입력하면 mustache는 기본적으로 html파일로 만든다.
+
+**@RestController = @Controller + @ResponseBody**
+
+@Controller대신에 @RestController 사용할 것
