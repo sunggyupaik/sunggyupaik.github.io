@@ -20,7 +20,9 @@ devtools가 제대로 반영하지 못하는 경우가 있다.. 그럴경우 수
 
 
 >$ git push
+
 >fatal: The current branch master has no upstream branch.
+
 >To push the current branch and set the remote as upstream, use
 
 branch가 있을 경우, 어느 계정으로 push를 할지 정해주어야 한다.
