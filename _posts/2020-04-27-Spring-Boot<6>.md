@@ -28,3 +28,9 @@ devtools가 제대로 반영하지 못하는 경우가 있다.. 그럴경우 수
 branch가 있을 경우, 어느 계정으로 push를 할지 정해주어야 한다.
 git push + origin master
 
+>./mvnw clean package
+clean = 그 전에 있었던 mvnw를 날린다.
+
+package = 새로운 mvnw를 만들어준다.
+
+
