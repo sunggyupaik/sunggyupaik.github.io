@@ -26,7 +26,8 @@ navigation bar에 해당하는 코드를 붙여넣고 **>**를 사용해 참조�
 ```
 @GetMapping("/{Id}/form")
 ```
-우리가 primary key로 설정하였던 Id에 대하여 값을 확인하고 각자의 form으로 넘겨준다.
+우리가 primary key로 설정하였던 Id에 대하여 값을 확인하고 각자의 form으로 넘겨준다.   
+   
 
 ```
 public String updateForm(@PathVariable Long Id, Model model) {
