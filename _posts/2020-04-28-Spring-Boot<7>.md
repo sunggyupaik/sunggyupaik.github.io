@@ -37,6 +37,6 @@ navigation bar에 해당하는 코드를 붙여넣고 **>**를 사용해 참조�
 model에 해당 정보를 저장해 내가 가고 싶은 페이지에서 mustache 문법으로 조회하게 한다.
 
 **정보를 수정한다는 의미는 수정해야 할 정보가 애초에 넘어왔다는 의미이고, 그것은 Id이다.**   
-ex)<td><a href= "/users/{{Id}}/form" class="btn btn-success" role="button">수정</a></td>
+ex) <td><a href= "/users/{{Id}}/form" class="btn btn-success" role="button">수정</a></td>
 
 
