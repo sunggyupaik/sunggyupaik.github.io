@@ -34,10 +34,12 @@ public String updateForm(@PathVariable Long Id, Model model) {
 ```
 @Pathariable를 Id에 설정해, Id를 통해 내가 원하는 정보를 찾겠다는 의미이다.
 
+
 ```
 User user = userRepository.findById(Id).get();
 ```
 @PathVariable의 Id는 primary key이므로 해당 Id의 User 정보를 가져온다.
+
 
 ```
 model.addAttribute("user", user);
