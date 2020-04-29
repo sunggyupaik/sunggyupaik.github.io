@@ -143,7 +143,46 @@ if (!user.matchPassword(password)) {
 }
 ```
 위에 있는 코드는 password를 알기 위해서 직접 접근하는 경우이다. 이것은 객체지향프로그래밍의 **캡슐화**에 저해되는 것이니 하지 않고 아래를 이용한다. 우리는 단지 user에게 비밀번호가 맞는지 아닌지 메시지를 전달하며 matchPassword()라는 메소드를 통해서 확인해 줄 것을 요청하고 있다. 
+#
 
+# 4-5. 질문하기, 질문 목록 기능 구현
 
+```
+public Question() {}
+```
+**jpa에서는 default 생성자를 꼭 만들어놓아야 다른 생성자를 만들 수 있다.**
+#
+
+```
+@Autowired
+private QuestionRepository questionRepository;
+```
+**@Autowired는 해당 Repository의 값을 할당하라는 의미이다.** Autowired없이 그냥 선언만 하면 null 상태이다!   
+Interface만 선언해도, 그 안에 **구현체와 isntance는 모두 Spring이 생성해 주고 있기 때문에** 사용자는 구현 내용을 알 필요가 없다.
+#
+
+```
+public String create(String title, String contents, HttpSession session) {
+...
+User sessionUser = HttpSessionUtils.getUserfromSession(session);
+```
+매개변수로 받아온 session을 이용하여 현재 로그인 되어있는 session의 정보를 얻어온다.
+#
+```
+Question newQuestion = new Question(sessionUser.getUserId(), title, contents);
+```
+매개변수로 받아온 String과 contents, session에서 불러온 값중에 sessionId를 이용해 Question 테이블에 넣기 위해 객체를 만든다.
+#
+```
+questionRepository.save(newQuestion);
+```
+questionRepository에서 제공하는 save 기능을 통해 테이블 객체를 저장한다.
+#
+```
+public interface QuestionRepository extends JpaRepository<Question, Long>{
+
+}
+```
+Question 테이블을 저장할 수 있도록 QuestionRepository는 JpaRepository를 상속받고 있기 때문에 save가 가능하다.
 
 
