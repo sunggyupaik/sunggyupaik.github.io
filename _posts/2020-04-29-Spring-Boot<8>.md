@@ -219,3 +219,6 @@ Application.class 파일이 있는 package에 새로운 class를 만든다. Spri
 tomcat 서버를 ubuntu에 설치한다.
 > ~tomcat/webapps에 있는 ROOT가 실행파일이다. (여기로 나의 war 파일을 옮긴다음에 ROOT로 폴더 이름을 바꾼다)
 > ~tomcat/bin에서 ./startup.sh와 ./shutdown.sh로 tomcat을 실행하거나 중지시킬 수 있다.
+> ~tomcat/logs에서 catalina.out 파일이 로그 담당이다. 오류확인 시 여기 파일 확인
+#
+tomcat 서버는 webapps 위치에서 여러개 가동시킬 수 있다!!!
