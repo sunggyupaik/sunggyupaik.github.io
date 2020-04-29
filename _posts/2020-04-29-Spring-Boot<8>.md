@@ -23,7 +23,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 }
 ```
 그러기 위해서는 다음과 같이 interface에서 userId로 조회가 가능하도록 메서드를 추가해야 한다.   
-매개변수에 무엇을 넣어야 하는지만 알면 조회하는 것이 가능하다.
+매개변수에 무엇을 넣어야 하는지만 알면 조회하는 것이 가능하다.   
+**어떻게 이렇게 쉽게 가능하지?**
+
 #
 ```
 if(user == null) {
@@ -46,4 +48,35 @@ System.out.println("Login Success");
 		Session.setAttribute("user", user);
 		return"redirect:/";
 ```
-**로그인 정보가 맞다면 Session.setAttribute()를 통해 Session에 저장!
+**로그인 정보가 맞다면 Session.setAttribute()를 통해 Session에 저장!**
+#
+
+# 4-2. 로그인 상태에 따른 메뉴 처리 및 로그아웃
+
+**spring-boot에서는 apllication.properties에 여러 설정을 하면 구현하지 않고 이용할 수 있는 장점이 있으므로 공식 문서 확인**   
+ex)mustache를 통해 session을 사용하려면 어떻게 해야 하는가?   
+
+**어떻게하면, static/index.html이 아니라 templates/index.html로 시작할 수 있을까?**
+
+```
+@Controller
+@RequestMapping("/")
+public class PageController {
+	public String index() {
+		return "index";
+	}
+}
+```
+시작이 static의 index.html이므로, template에 있는 index.html이 시작위치에 있도록 지정한다.
+
+```
+@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		return "redirect:/";
+	}
+```
+**로그 아웃의 의미는?**   
+Session을 제거해 주는 것이다.
+
+
