@@ -90,9 +90,9 @@ Session을 제거해 주는 것이다.
 			return "redirect:/users/loginForm";
 		}
 ```   
-개인정보 수정 시에 사이트 URL주소가 Id(primay key)가 들어가 있다. 그래서 개인 정보수정을 클릭할 때, 로그인 된 Session의 Id와 내가 접속한 URL의 Id가 같은지 확인한다. 그렇지 않으면, 다른 계정으로 로그인하고 URL에서 남의 Id를 입력하고 개인정보를 수정할 수도 있기 때문이다.   
+개인정보 수정 주소에 들어갈 때, URL주소가 Id(primay key)로 구분되어진다. 그래서 개인 정보수정을 클릭할 때, 로그인 된 Session의 Id와 내가 접속한 URL의 Id가 같은지 확인한다. 그렇지 않으면, 다른 계정으로 로그인하고 URL에서 남의 Id를 입력하고 개인정보를 수정할 수도 있기 때문이다.   
 session.getAttribute는 반환형이 **Object**이므로 그 상황에서 비교해준다.
-
+#
 ```
 User sessionUser = (User) tempUser;
 		if(!sessionUser.getId().equals(Id)) {
@@ -100,3 +100,29 @@ User sessionUser = (User) tempUser;
 		}
 ```
 Object형 tempUser를 User로 형변환하고, 로그인 된 session의 Id와 접속하려는 URL의 Id와 비교한다.(primary key이므로 구분 가능)
+#
+
+```
+return "redirect:/users/loginForm"      
+return "/user/login"
+```
+첫번째는 Controller의 @RequestMapping인 users에 **다시 주소를 보낸다**는 것이고,   
+두번째는 templates 디렉토리 안에 잇는 **user/login 파일을 띄운다**는 의미이다.   
+#
+
+**백엔드 개발자는 내가 로그인 하지 않는 경우 정보수정 등 잘못된 접근을 하지 못하도록 꼭 보안을 잘 신경쓰고 코딩해야 한다.**   
+#
+
+```
+public String update(@PathVariable Long Id, User updatedUser, HttpSession session) {
+...   
+
+User user = userRepository.findById(Id).get();
+		user.update(updatedUser);
+		userRepository.save(user);
+```
+개인정보 수정 후 완료를 누를 시,   
+다음과 같이 Id로 원래 저장되어 있던 정보들을 불러 올 수 있다. findById(Id)로 가능하다. 이후 매개변수로 주어진 updatedUser의 정보들로 바꿔준다.(update)  그리고 저장소에 그 값들을 저장한다. 
+
+**form 태그 안에서 name명과 User의 변수들의 이름을 맞춰 주면, update()의 매개변수에 User updatedUser가 자동으로 그 값을 읽어 올 수 있는걸까? 그래서 user.update(updatedUser)가 가능한 것일까?** 
+
