@@ -78,5 +78,25 @@ public class PageController {
 ```
 **로그 아웃의 의미는?**   
 Session을 제거해 주는 것이다.
+#
 
+# 4-3. 자기 자신에 한해 개인정보 수정
+```
+@GetMapping("/{Id}/form")
+	public String updateForm(@PathVariable Long Id, Model model, HttpSession session) {
+		Object tempUser = session.getAttribute("sessionedUser");
+		System.out.println(tempUser);
+		if(tempUser==null) {
+			return "redirect:/users/loginForm";
+		}
+```   
+개인정보 수정 시에 사이트 URL주소가 Id(primay key)가 들어가 있다. 그래서 개인 정보수정을 클릭할 때, 로그인 된 Session의 Id와 내가 접속한 URL의 Id가 같은지 확인한다. 그렇지 않으면, 다른 계정으로 로그인하고 URL에서 남의 Id를 입력하고 개인정보를 수정할 수도 있기 때문이다.   
+session.getAttribute는 반환형이 **Object**이므로 그 상황에서 비교해준다.
 
+```
+User sessionUser = (User) tempUser;
+		if(!sessionUser.getId().equals(Id)) {
+			throw new IllegalStateException("자신의 정보만 수정 할 수 있습니다.");
+		}
+```
+Object형 tempUser를 User로 형변환하고, 로그인 된 session의 Id와 접속하려는 URL의 Id와 비교한다.(primary key이므로 구분 가능)
