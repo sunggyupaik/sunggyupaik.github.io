@@ -222,3 +222,7 @@ tomcat 서버를 ubuntu에 설치한다.
 > ~tomcat/logs에서 catalina.out 파일이 로그 담당이다. 오류확인 시 여기 파일 확인
 #
 tomcat 서버는 webapps 위치에서 여러개 가동시킬 수 있다!!!
+
+# 5-0. 다섯 번째 반복주기 학습 목표 및 과정 설명
+
+JPA를 사용하지 않으면 Join을 사용하여서 테이블끼리 연결해야하지 **JPA를 사용하면 Annotation만으로 쉽게 객체간의 관계를 맺을 수 있다.**
