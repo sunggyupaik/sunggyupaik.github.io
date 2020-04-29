@@ -185,4 +185,37 @@ public interface QuestionRepository extends JpaRepository<Question, Long>{
 ```
 Question 테이블을 저장할 수 있도록 QuestionRepository는 JpaRepository를 상속받고 있기 때문에 save가 가능하다.
 
+# 4-6. 네 번째 반복주기 원격 서버 배포
+모바일에서는 웹 자원 관리 안하고 데이터들만 웹서버 쪽에서 제공을 해준다. 그래서 jar파일로 배포가 가능하다.   
+하지만 웹 애플리케이션은 img, html등을 포함하고 있어서 jar 파일로 배포하면 문제가 생길 수 있다. 따라서 **war**를 이용해야 한다.   
+따라서 별도의 tomcat 서버를 설치하고 해당하는 소스코드를 배포해야 한다.
 
+> Jar 파일로도 배포가 가능합니다. mustache partial 기능에 문제가 있는 것이 아니라 {{> /include/header}}에서 /include의 / (슬래시)를 빼고 {{> include/header}} 라고 작성하면 jar파일로 배포해도 정상적으로 동작합니다. Controller에서도 return 값이 /로 시작하면 제거해야합니다. 로컬에서는 /가 있어도 동작하지만 서버에 올렸을 때는 /로 시작하지 않아야 제대로 연결되네요. 절대경로 문제인 것 같은데 혹시 정확한 이유를 아시는 분은 댓글 부탁드립니다. (by 유투브 댓글)   
+#
+
+```
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-tomcat</artifactId>
+   <scope>provided</scope>
+</dependency>
+<package>war</package>
+```
+내장되어 있는 tomcat이 아니라 별도의 tomcat을 설치해서 사용하는 것이다. embbed tomcat을 이용하면 Application.java를 자동으로 실행을 해주지만, 외부 tomcat을 사용하면 사용자가 직접 실행 해주어야 한다. 
+#
+
+```
+public class MyWebInitializer extends SpringBootServletInitializer {
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		// TODO Auto-generated method stub
+		return builder.sources(Melon9751Application.class);
+	}
+}
+```
+Application.class 파일이 있는 package에 새로운 class를 만든다. SpringBoot의 Server를 초기화하고 실행시키기 위한 별도의 파일이다. return에는 우리가 기존에 가지고 있었던 Apllication.class를 실행시켜주기 위한 builder가 있다.
+#
+
+tomcat 서버를 ubuntu에 설치한다.
+> ~tomcat/webapps에 있는 ROOT가 실행파일이다. (여기로 나의 war 파일을 옮긴다음에 ROOT로 폴더 이름을 바꾼다)
+> ~tomcat/bin에서 ./startup.sh와 ./shutdown.sh로 tomcat을 실행하거나 중지시킬 수 있다.
