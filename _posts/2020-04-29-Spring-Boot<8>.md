@@ -126,3 +126,24 @@ User user = userRepository.findById(Id).get();
 
 **form 태그 안에서 name명과 User의 변수들의 이름을 맞춰 주면, update()의 매개변수에 User updatedUser가 자동으로 그 값을 읽어 올 수 있는걸까? 그래서 user.update(updatedUser)가 가능한 것일까?** 
 
+# 4-4. 중복 제거, clean code, 쿼리 보기 설정
+
+jpa는 테이블이 자동으로 생성되어서, 쿼리가 내가 원하는대로 실행되는지 안되는지 알 수가 없다. 어떻게 하면 쿼리를 볼 수 있을까?   
+application.properties에서 수정..   
+```
+if (!password.equals(user.getPassword())) {
+	System.out.println("Login Failed");
+	return "rediret:/users/loginForm";
+}
+		
+// 비밀번호가 다르면 다시 로그인창
+if (!user.matchPassword(password)) {
+	System.out.println("Login Failed");
+	return "rediret:/users/loginForm";
+}
+```
+위에 있는 코드는 password를 알기 위해서 직접 접근하는 경우이다. 이것은 객체지향프로그래밍의 **캡슐화**에 저해되는 것이니 하지 않고 아래를 이용한다. 우리는 단지 user에게 비밀번호가 맞는지 아닌지 메시지를 전달하며 matchPassword()라는 메소드를 통해서 확인해 줄 것을 요청하고 있다. 
+
+
+
+
