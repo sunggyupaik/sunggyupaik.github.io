@@ -46,3 +46,53 @@ public String getFormmatedCreateDate() {
 {{formmatedCreateDate}}
 ```
 이제 get을 제외한 부분에서 맨 앞에를 소문자를 만들고 넣으면 시간이 정상적으로 출력된다.
+
+# 5-2. 질문 상세보기 기능
+
+```
+@GetMapping("/{Id}")
+	public String show(@PathVariable Long Id, Model model) {
+		Question question = questionRepository.findById(Id).get();
+		model.addAttribute("question", question);
+		
+		return "/qna/show";
+	}
+```
+**질문을 상세하게 보고싶다는 의미는?**   
+질문을 클릭 시, 해당 내용을 불러오는 것이다. 따라서 Repositories에서 저장되어 있는 정보를 불러와서 model에 추가하고 사용한다.
+
+# 5-3. 질문 수정, 삭제 기능 구현
+
+**질문을 수정, 삭제한다는 의미는?**   
+질문을 수정하면, Repositories에서 해당 내용을 불러와 update하고 다시 저장, 삭제는 해당 Repositories의 기록을 delete하면된다. 
+
+```
+<input tpye="hidden" name="_method" value="put" />
+...
+//게시글 수정을 눌렀을 때
+	@PutMapping("/{id}")
+	public String update(@PathVariable Long Id, String title, String contents) {
+		Question question = questionRepository.findById(Id).get();
+		question.update(title,contents);
+		questionRepository.save(question);
+		return String.format("redirect:/questions/", Id);
+	}
+```
+input type를 hidden으로, value를 put으로 해두면, form태그 완료 시, PutMapping으로 넘어온다.   
+**form action의 주소로 @GetMapping을 사용하거나, input hidden put을 @PutMapping으로 사용 할 수 있는가?**
+Id를 이용해 저장소에서 객체를 불러온다음, update시키고 다시 저장한다.
+#
+
+```
+<input type="hidden" name="_method" value="delete" >
+...
+//게시글 삭제를 눌렀을 때
+	@DeleteMapping("/{Id}")
+	public String delete(@PathVariable Long Id) {
+		questionRepository.deleteById(Id);
+		return "redirect:/";
+	}
+```
+input type을 hidden으로 value를 delete로 설정하고 **@DeleteMapping**을 사용한다. 딱히 Delete라고 다른건 없다. 직접 삭제해주어야 한다.   
+**Annotation으로 @DeleteMapping은 따로 delete 기능이 있는 것이 아닌 개발자 입장에서 편하게 확인하기 위해 명시적인가?**   
+Id를 이용해 저장소에 있는 객체 중, 해당 Id(primary key)를 가진 정보를 삭제한다.
