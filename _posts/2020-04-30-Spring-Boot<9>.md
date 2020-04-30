@@ -189,8 +189,3 @@ User loginUser = HttpSessionUtils.getUserfromSession(session);
 **외래키는 다른 릴레이션의 기본키를 참조하는 속성을 말한다.**    
 즉, 외래키는 다른 테이블에서 유일하게 식별되는 PK이므로 User의 정보는 누가 댓글을 쓰는지 식별하고, 어떤 Question에 다는 글인지 식별한다. 이제 댓글을 달면 User_id , Question_id, Answer_id(답변들을 구분) 총 3개의 ID값을 갖는다.
 
-
-
-
-
-
