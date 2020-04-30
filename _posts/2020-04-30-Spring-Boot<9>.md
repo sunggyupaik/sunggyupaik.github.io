@@ -181,7 +181,7 @@ User loginUser = HttpSessionUtils.getUserfromSession(session);
 		answerRepository.save(answer);
 		return String.format("redirect:/questions/%d", questionId);
 ```
-답변을 추가하는 것은 2가지가 필요하다. **User 정보**와 **Question**정보.   현재 로그인한 User정보는 session으로 획득할 수 있다. Question은 질문 번호인 questionId를 매개변수로 넘기기 떄문에 이 고유한 번호로 구분해서 객체를 얻을 수 있다. User정보와 Question 정보를 담은 answer 객체를 생성하고 repository에 저장한다. 내부적으로 저장해 주기 때문에 코드를 구현 할 필요가 없다. 
+답변을 추가하는 것은 2가지가 필요하다. **User 정보**와 **Question**정보.     현재 로그인한 User정보는 session으로 획득할 수 있다. Question은 질문 번호인 questionId를 매개변수로 넘기기 떄문에 이 고유한 번호로 구분해서 객체를 얻을 수 있다. User정보와 Question 정보를 담은 answer 객체를 생성하고 repository에 저장한다. 내부적으로 저장해 주기 때문에 코드를 구현 할 필요가 없다. 
 
 **외래키는 다른 릴레이션의 기본키를 참조하는 속성을 말한다.**    즉, 외래키는 다른 테이블에서 유일하게 식별되는 PK이므로 User의 정보는 누가 댓글을 쓰는지 식별하고, 어떤 Question에 다는 글인지 식별한다. 이제 댓글을 달면 User_id , Question_id, Answer_id(답변들을 구분) 총 3개의 ID값을 갖는다.
 
