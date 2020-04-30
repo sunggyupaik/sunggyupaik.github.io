@@ -39,7 +39,7 @@ public String getFormmatedCreateDate() {
 	}
 ```
 자바에서 날짜에 관한 형식은 **LocalDateTime**을 참조한다.   
-**LocalDate currentDate = LocalDate.now();** 현재시간을 나타낸다.
+**LocalDate createDate = LocalDate.now();** 현재시간을 나타낸다.
 #
 
 ```
@@ -98,3 +98,35 @@ input type을 hidden으로 value를 delete로 설정하고 **@DeleteMapping**을
 Id를 이용해 저장소에 있는 객체 중, 해당 Id(primary key)를 가진 정보를 삭제한다.   
 
 @GetMapping("/{Id}") @DeleteMapping("/{Id}") @PutMapping("/{Id}") 모두 같은 url을 가리키지만, html파일에서 value="put" , value="delete"로 설정했기에 가능하다. 하지만 계속 Method Not Allowed라는 오류르 발생시켜서 PostMapping으로 일괄처리했다.
+
+# 5-4. 수정/삭제 기능에 대한 보안 처리 및 LocalDateTime 설정
+```
+@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name ="fk_question_writer"))
+	private User writer;
+```
+5-1 설명처럼, User class에서 객체 관계를 만들지 않고, Question class에서 객체의 관계를 만들어주고 있다. Question 테이블에 User 타입으로 writer를 추가해 주고 있다. 누가 질문을 올렸는지 검증하는 과정에서 사용된다. 
+#
+
+```
+public String getFormatedCreateDate() {
+		if(createDate == null)
+			return "";
+		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
+	}
+```
+get메소드를 사용해서 현재 시간을 계산하는 String 문자열을 반환한다. createDate은 5-1에서와 같이 LocalDate.now()으로 선언되어 있으며, Java의 라이브러리에 정의된 코드를 사용하여 날짜를 표시하도록 한다. mustache에서 사용할 때, **{{formatedCreateDate}}** 라고 쓰면, 사용 가능하다.
+#
+
+```
+public Question(User writer, String title, String contents) {
+		super();
+		this.writer = writer;
+		this.title = title;
+		this.contents = contents;
+		this.createDate = LocalDateTime.now();
+	}
+```
+{{formatedCreateDate}}를 사용할 수 있는 이유는 Question에 createDate를 포함시켜서 객체를 만들기 때문에 , {{#question}}에 createDate라 포함되어 있어서 가능하다.
+
+
