@@ -31,7 +31,7 @@ public Question(User writer, String title, String contents) {
 이제 생성자에 변화가 생겼다. writer가 String이 아닌 User가 타입이다!
 #
 
----
+```
 public String getFormmatedCreateDate() {
 		if(createDate == null)
 			return "";
