@@ -1,7 +1,7 @@
 ---
-layout:post
-title:"Spring-Boot-9"
-date:2020-04-30
+layout:  post
+title:  "Spring-Boot-9"
+date:  2020-04-30
 ---
 
 # 5-1. 회원과 질문간의 관계 매핑 및 생성일 추가
