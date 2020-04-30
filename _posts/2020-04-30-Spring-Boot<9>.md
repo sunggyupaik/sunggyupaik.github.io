@@ -1,8 +1,6 @@
 ---
-type:post
-
+layout:post
 title:"Spring-Boot-9"
-
 date:2020-04-30
 ---
 
@@ -111,13 +109,13 @@ Id를 이용해 저장소에 있는 객체 중, 해당 Id(primary key)를 가진
 #
 
 ```
-public String getFormatedCreateDate() {
+public String getFormattedCreateDate() {
 		if(createDate == null)
 			return "";
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
 	}
 ```
-get메소드를 사용해서 현재 시간을 계산하는 String 문자열을 반환한다. createDate은 5-1에서와 같이 LocalDate.now()으로 선언되어 있으며, Java의 라이브러리에 정의된 코드를 사용하여 날짜를 표시하도록 한다. mustache에서 사용할 때, **{{formatedCreateDate}}** 라고 쓰면, 사용 가능하다.
+get메소드를 사용해서 현재 시간을 계산하는 String 문자열을 반환한다. createDate은 5-1에서와 같이 LocalDate.now()으로 선언되어 있으며, Java의 라이브러리에 정의된 코드를 사용하여 날짜를 표시하도록 한다. mustache에서 사용할 때, **{{formattedCreateDate}}** 라고 쓰면, 사용 가능하다.
 #
 
 ```
@@ -129,6 +127,64 @@ public Question(User writer, String title, String contents) {
 		this.createDate = LocalDateTime.now();
 	}
 ```
-{{formatedCreateDate}}를 사용할 수 있는 이유는 Question에 createDate를 포함시켜서 객체를 만들기 때문에 , {{#question}}에 createDate라 포함되어 있어서 가능하다.
+{{formattedCreateDate}}를 사용할 수 있는 이유는 Question에 createDate를 포함시켜서 객체를 만들기 때문에 , {{#question}}에 createDate라 포함되어 있어서 가능하다.
+#
+
+```
+return "/users/loginForm"; (X)
+return "redirect:/users/loginForm"; (O)
+```
+Controller로 Mapping을 하는 경우 무조건 redirect:를 쓰자! 그렇지 않을 때 오류 발생
+
+```
+public boolean isSameWriter(User loginUser) {
+		// TODO Auto-generated method stub
+		return this.writer.equals(loginUser);
+	}
+```
+writer와 loginUser 모두 User 타입이다. 하지만, 이 메소드는 Question.java에 선언되어 있다. **equals를 정확하게 해 주기 위해 User에 equals를 재정의 해주고 primary key인 Id만 비교하면 된다.**
+#
+
+# 5-5. 답변 추가 및 목록 기능 구현
+
+**답변이 달린다면, 로그인여부와 해당 글은 어느 글인지 확인할 필요가 있다**
+
+QuestionController에서 Answer의 Repository를 호출하고 메시지를 보낼 수도 있지만 Question.class에서 해결한다.
+#
+
+```
+<Answer.java>
+//여러개의 Answer이 Question에 달릴 수 있다.
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name ="fk_answer_to_question"))
+	private Question question;
+...
+<Question.java>
+//하나의 질문은 많은 답변을 가진다.
+	@OneToMany(mappedBy="question").
+	@OrderBy("Id ASC")
+	private List<Answer> answers;
+```
+Answer.java에서는 여러개의 답변이 하나의 질문에 달릴 수 있다. "그 해당 질문"이 **mappedBy**를 통해 가리켜지고 @OneToMany로 서로 반대가 되는 것이다. Id값이 오른차순으로 정렬되고, answers들은 list에 담긴다. **Question의 객체가 생성된다면, 해당 글의 Answer가 매핑되었으므로 Answer가 달릴때마다 자동으로 추가되어 있다. 따라서 다른 사이트로 나갔다가 다시 들어가도 댓글들을 표시 할 수 있다.**
+#
+
+```
+//답글등록
+@PostMapping("")
+	public String create(@PathVariable Long questionId, String contents, HttpSession session) {
+		if (!HttpSessionUtils.isLoginUser(session))
+			return "redirect:/users/loginForm";
+
+User loginUser = HttpSessionUtils.getUserfromSession(session);
+		Question question = questionRepository.findById(questionId).get();
+		Answer answer = new Answer(loginUser, question, contents);
+		answerRepository.save(answer);
+		return String.format("redirect:/questions/%d", questionId);
+```
+답변을 추가하는 것은 2가지가 필요하다. **User 정보**와 **Question**정보. 현재 로그인한 User정보는 session으로 획득할 수 있다. Question은 질문 번호인 questionId를 매개변수로 넘기기 떄문에 이 고유한 번호로 구분해서 객체를 얻을 수 있다. User정보와 Question 정보를 담은 answer 객체를 생성하고 repository에 저장한다. 내부적으로 저장해 주기 때문에 코드를 구현 할 필요가 없다. **외래키는 다른 릴레이션의 기본키를 참조하는 속성을 말한다.** 즉, 외래키는 다른 테이블에서 유일하게 식별되는 PK이므로 User의 정보는 누가 댓글을 쓰는지 식별하고, 어떤 Question에 다는 글인지 식별한다. 이제 댓글을 달면 User_id , Question_id, Answer_id(답변들을 구분) 총 3개의 ID값을 갖는다.
+
+
+
+
 
 
