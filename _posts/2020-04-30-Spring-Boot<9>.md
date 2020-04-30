@@ -95,4 +95,6 @@ Id를 이용해 저장소에서 객체를 불러온다음, update시키고 다�
 ```
 input type을 hidden으로 value를 delete로 설정하고 **@DeleteMapping**을 사용한다. 딱히 Delete라고 다른건 없다. 직접 삭제해주어야 한다.   
 **Annotation으로 @DeleteMapping은 따로 delete 기능이 있는 것이 아닌 개발자 입장에서 편하게 확인하기 위해 명시적인가?**   
-Id를 이용해 저장소에 있는 객체 중, 해당 Id(primary key)를 가진 정보를 삭제한다.
+Id를 이용해 저장소에 있는 객체 중, 해당 Id(primary key)를 가진 정보를 삭제한다.   
+
+@GetMapping("/{Id}") @DeleteMapping("/{Id}") @PutMapping("/{Id}") 모두 같은 url을 가리키지만, html파일에서 value="put" , value="delete"로 설정했기에 가능하다. 하지만 계속 Method Not Allowed라는 오류르 발생시켜서 PostMapping으로 일괄처리했다.
