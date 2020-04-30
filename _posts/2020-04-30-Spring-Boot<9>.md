@@ -17,10 +17,7 @@ User 객체는 보통 최상위이며, 따라서 다른 객체들과의 관계�
 ```
 Question class에서 User의 객체를 사용하고 싶다. 따라서 Question Table에 Join으로 Column을 추가한다. 
 foreign key 형태이며, 이름은 fk_question_writer이다. 이제 Question 테이블 생성 시 새로운 칼럼이 추가되어서 생성된다.
-
-```
 #
-
 ```
 public Question(User writer, String title, String contents) {
 		super();
@@ -32,12 +29,15 @@ public Question(User writer, String title, String contents) {
 ```
 이제 생성자에 변화가 생겼다. writer가 String이 아닌 User가 타입이다!
 #
+
+---
 public String getFormmatedCreateDate() {
 		if(createDate == null)
 			return "";
 		return createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
 	}
 ```
+
 자바에서 날짜에 관한 형식은 **LocalDateTime**을 참조한다.   
 **LocalDate currentDate = LocalDate.now();** 현재시간을 나타낸다.
 #
