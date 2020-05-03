@@ -80,7 +80,16 @@ $("textarea[name=contents]").val("");
 #
 
 # 6-3. AJAX를 활용해 답변 삭제 기능 구현
+```
+var deleteBtn = $(this);
+var url = deleteBtn.attr("href");
+```
+내가 삭제버튼을 누르는데 비동기 적으로 처리하고 싶어서 href 주소를 가져오고 싶다. $(this)는 jQuery 언어로, "삭제"를 눌렀을 때 해당 객체를 얻도록 하는 명령어이다. 여기서 attr는 속성을 가져올 수 있으며 attr("href")를 통해 주소를 가져온다. 
+```
+deleteBtn.closest("article").remove();
+```
+closest는 가장 가까운 태그를 찾기 위한 것이며, remove()를 통해 댓글을 삭제 할 수 있다.
 
-
+# 6-4. 질문 목록에 답변 수 보여주기 기능 추가
 
 
