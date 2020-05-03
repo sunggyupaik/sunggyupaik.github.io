@@ -119,6 +119,6 @@ public class AbstractEntity {
 #
 
 # 6-6. Swagger 라이브러리를 통한 API 문서화 및 테스트
-
+Swagger는 수동으로 테스트할 수 있는 기능이다!
 
 
