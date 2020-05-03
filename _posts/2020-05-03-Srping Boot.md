@@ -79,6 +79,8 @@ $("textarea[name=contents]").val("");
 댓글을 달고 나서 댓글 입력란이 초기화 되어주도록 jQuery를 이용하여 textrea 부분을 val("")으로 설정한다.
 #
 
+# 6-3. AJAX를 활용해 답변 삭제 기능 구현
+
 
 
 
