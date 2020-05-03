@@ -121,4 +121,19 @@ public class AbstractEntity {
 # 6-6. Swagger 라이브러리를 통한 API 문서화 및 테스트
 Swagger는 수동으로 테스트할 수 있는 기능이다!
 
+# 6-7. 쉘 스크립트를 활용한 배포 자동화
+####배포순서
+1. gitpull   
+2. 메이븐 빌드(./mvnw clean package)   
+3. tomcat 서버 종료   
+4. tomcat/webapps/ROOT 삭제   
+5. 빌드한 산출물을 tomcat/webapps/ROOT로 이동   
+6. tomcat 서버 시작   
+#
+
+```
+#!/bin/bash
+```
+bash 쉘을 기본으로 사용하며 사용하고 싶은 쉘 명령어를 그대로 엔터치면서 기록   
+./desploy.sh로 실행!
 
