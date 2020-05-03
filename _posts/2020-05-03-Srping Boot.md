@@ -92,4 +92,33 @@ closest는 가장 가까운 태그를 찾기 위한 것이며, remove()를 통�
 
 # 6-4. 질문 목록에 답변 수 보여주기 기능 추가
 
+```
+answerRepository.deleteById(Id);
+Question question = questionRepository.findById(questionId).get();
+question.deleteAnswer();
+questionRepository.save(question);
+```
+목록에 담긴 댓글의 갯수를 보여 주려면 그것은 Question의 객체에 포함시키도록 한다. 그러면, question 객체를 호출해야 하므로 questionId를 통해
+특정 question의 객체를 얻어온다. 댓글이 삭제된다면 deleteAnswer로 -1을 해준다. 그리고 꼭 해당 내용을 다시 저장한다.
+#
+
+```
+question.addAnswer();
+```
+답글을 새롭게 작성할 때 1을 추가시킨다. Question은 Answer를 포함하고 있음을 기억한다!!!
+#
+
+# 6-5. 도메인 클래스에 대한 중복 제거 및 리팩토링
+
+```
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class) 
+public class AbstractEntity {
+```
+부모 추상클래스의 @EntityListeners(AuditingEntityListener.class) 는 Listener에서 createDate, modifiedDate 변경사항을 감지하면 자동으로 설정해준다. 항상 Listener를 하고 있는 상태이다. Entity는 테이블을 의미한다.
+#
+
+# 6-6. Swagger 라이브러리를 통한 API 문서화 및 테스트
+
+
 
